@@ -1,0 +1,46 @@
+﻿<Window x:Class="ex1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ex1"
+        xmlns:control="clr-namespace:ex1.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="470" Width="880">
+    <Grid ShowGridLines="False">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Teal" Offset="0.0" />
+                <GradientStop Color="DarkSeaGreen" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <!-- Definition of our main screen-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="310.029"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!-- First row-->
+        <Grid ShowGridLines="False" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="320"/>
+            </Grid.ColumnDefinitions>
+            <!--Graphs-->
+            <control:Graphs Grid.Column="0"/>
+            <!--General information-->
+            <control:InformationTable Grid.Column="1" Grid.RowSpan="2"/>
+            <!--Joystick-->
+            <control:Sliders  Grid.Column="2" HorizontalAlignment="Left" Width="320"/>
+        </Grid>
+        <Grid ShowGridLines="False" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100.009"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <control:MediaPlayer Grid.Row="0" Loaded="MediaPlayer_Loaded"/>
+            <Button Name="Menu" Grid.Row="1" Content="Return to menu"  FontSize="15" Foreground="Firebrick" Background="Transparent" FontWeight="ExtraBold"
+                VerticalAlignment="Top" HorizontalAlignment="Stretch" Click="Menu_Click"/>
+        </Grid>
+    </Grid>
+</Window>
