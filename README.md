@@ -22,4 +22,4 @@ To learn about WPF while using MVVM architecture. How to built and use DLL.
 Work as a team, how to share the work and communicate about difficulties and architecture of the project. 
 
 # Contact us
-If you have any suggestions\questions please feel free to contact us at :  or fannyguthmann@gmail.com
+If you have any suggestions\questions please feel free to contact us at : Idoavtr@gmail.com or fannyguthmann@gmail.com
