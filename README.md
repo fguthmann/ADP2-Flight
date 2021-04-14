@@ -18,7 +18,8 @@
 * You need to pick the algorithm of exception that you want to be run
 
 # What is the goal of this project?
-To learn about WPF, DLL, and work as a team
+To learn about WPF while using MVVM architecture. How to built and use DLL.
+Work as a team, how to share the work and communicate about difficulties and architecture of the project. 
 
 # Contact us
-If you have any suggestions\questions please feel free to contact us at : noabbo96@gmail.com or fannyguthmann@gmail.com
+If you have any suggestions\questions please feel free to contact us at :  or fannyguthmann@gmail.com
