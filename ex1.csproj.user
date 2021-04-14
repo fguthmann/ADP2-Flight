@@ -1,30 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ShowAllFiles>true</ShowAllFiles>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="View\Graphs.xaml.cs">
+    <Compile Update="View\AddNewAlgorithm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\InformationTable.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\MainWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="View\MediaPlayer.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\MenuWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Joystick.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\Sliders.xaml.cs">
@@ -32,22 +21,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Graphs.xaml">
+    <Page Update="View\AddNewAlgorithm.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\InformationTable.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="View\MediaPlayer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\MenuWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\Joystick.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Sliders.xaml">

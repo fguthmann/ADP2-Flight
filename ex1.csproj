@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -35,10 +35,7 @@
 
   <ItemGroup>
     <Reference Include="AnomalyDetector">
-      <HintPath>bin\Debug\net5.0-windows\AnomalyDetector.dll</HintPath>
-    </Reference>
-    <Reference Include="DllForAnomalyDetector">
-      <HintPath>bin\Debug\net5.0-windows\DllForAnomalyDetector.dll</HintPath>
+      <HintPath>..\..\..\..\..\source\repos\AnomalyDetector\AnomalyDetector\bin\Debug\net5.0\AnomalyDetector.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -22,7 +22,10 @@ namespace ex1
             base.OnStartup(e);
 
             View.MenuWindow window = new View.MenuWindow();
-           
+            
+
+            
+            //window.DataContext = flightInfoViewModel;
             window.Show();
 
         }
