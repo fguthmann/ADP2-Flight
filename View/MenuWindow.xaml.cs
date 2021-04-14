@@ -23,8 +23,11 @@ namespace ex1.View
     /// </summary>
     public partial class MenuWindow : Window
     {
-        private string pathFileExceptionFile;
+        private string pathToDLL = "";
+        private string pathFileExceptionFile = "anomaly_flight.csv";
+        private string NormalFlightFileDownload = "reg_flight.csv";
         private bool ExceptionFlightFileDownload;
+        private bool pathToDLLDownload;
         private MainWindow runFlight;
         public MenuWindow()
         {
@@ -35,9 +38,40 @@ namespace ex1.View
             DataContext = flightInfoViewModel;
 
             InitializeComponent();
+
+            pathToDLLDownload = false;
             ExceptionFlightFileDownload = false;
         }
 
+
+
+        // Upload our normal flight file
+       /* private void NormalFLight_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //Download file
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                pathFileNormalFlight = System.IO.Path.GetFullPath(files[0]);
+                string fileNameNormalFlight = System.IO.Path.GetFileName(files[0]);
+
+                // Show that file ha been download correctly
+                FileNameLabel.Content = "Normal flight file downloaded";
+                NormalFlightFileDownload = true;
+
+            }
+        }*/
+
+
+        private void RegisterAlgo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void InternCircleAlgo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
@@ -57,10 +91,31 @@ namespace ex1.View
             {
                 //runFlight.DataContext = (FlightInfoViewModel)this.DataContext);
                 runFlight.Show();
-                ((FlightInfoViewModel)this.DataContext).RunFlight(pathFileExceptionFile);
+                ((FlightInfoViewModel)this.DataContext).RunFlight(NormalFlightFileDownload, pathFileExceptionFile, pathToDLL);
                 this.Close();
             }
         }
+
+
+        /**
+        // Open window to drop file of new algorithm
+        private void AddAlgorithm_Click(object sender, RoutedEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //Download file
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                pathToDLL = System.IO.Path.GetFullPath(files[0]);
+                string pathToDLL = System.IO.Path.GetFileName(files[0]);
+
+
+                // Show that file ha been download correctly
+                ExceptionFLight.Content = "Exception flight file downloaded";
+                ExceptionFlightFileDownload = true;
+
+            }
+        }
+        */
 
         // Upload our exception flight file
         private void exceptionFLight_Drop(object sender, DragEventArgs e)
@@ -80,14 +135,20 @@ namespace ex1.View
             }
         }
 
-        private void PickAnomalyException_Drop(object sender, DragEventArgs e)
+        private void dllFileDrop_Drop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string pathAlgorithmFile = System.IO.Path.GetFullPath(files[0]);
-            ((FlightInfoViewModel)DataContext).newAlgorithm(pathAlgorithmFile);
-            // Show that file ha been download correctly
-            ExceptionFLight.Content = "Exception algorithm downloaded";
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //Download file
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                pathToDLL = System.IO.Path.GetFullPath(files[0]);
 
+
+                // Show that file ha been download correctly
+                ExceptionFLight.Content = "Exception flight file downloaded";
+                ExceptionFlightFileDownload = true;
+
+            }
         }
     }
 }

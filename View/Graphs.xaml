@@ -12,8 +12,7 @@
     <Grid ShowGridLines="True" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <!-- List Box -->
         <ListBox Grid.Column="0" ItemsSource="{Binding Path=names, UpdateSourceTrigger=PropertyChanged}">
@@ -23,13 +22,13 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <ListBox x:Name="ExceptionPoints" Grid.Column="1" ItemsSource="{Binding Path= points, UpdateSourceTrigger=PropertyChanged}">
+        <!--  <ListBox x:Name="ExceptionPoints" Grid.Column="1" ItemsSource="{Binding Path=anomalis.Anomalies, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <EventSetter Event="MouseDoubleClick" Handler="ExceptionPoints_MouseDoubleClick" />
                 </Style>
             </ListBox.ItemContainerStyle>
-        </ListBox>
+        </ListBox>-->
         <Grid ShowGridLines="True" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -41,14 +40,14 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- Graph of the correlative attribut-->
-                <oxy:Plot Grid.Column="0" Title="{Binding correlativeGraph.AttrName, Mode=OneWay}">
+                <oxy:Plot Grid.Column="1" Title="{Binding correlativeGraph.AttrName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                     <oxy:Plot.Series>
                         <oxy:LineSeries ItemsSource="{Binding correlativeGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                     </oxy:Plot.Series>
                 </oxy:Plot>
 
                 <!-- Graph of the attribute selctionnated-->
-                <oxy:Plot Grid.Column="1" Title="{Binding attrGraph.AttrName, Mode=OneWay}">
+                <oxy:Plot Grid.Column="0" Title="{Binding attrGraph.AttrName, Mode=OneWay}">
                     <oxy:Plot.Series>
                         <oxy:LineSeries ItemsSource="{Binding attrGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                     </oxy:Plot.Series>
@@ -57,7 +56,8 @@
             <!-- Graph of the last 30 seconds of the flight-->
             <oxy:Plot Grid.Column="1" Grid.Row="1" Title="30 Seconds Graph">
                 <oxy:Plot.Series>
-                    <oxy:ScatterSeries ItemsSource="{Binding DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <oxy:ScatterSeries x:Name="pointsG" ItemsSource="{Binding DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <oxy:LineSeries x:Name="lineG" ItemsSource="{Binding anomalis.Draw, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                 </oxy:Plot.Series>
             </oxy:Plot>
 

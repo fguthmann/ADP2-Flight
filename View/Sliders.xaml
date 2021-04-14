@@ -57,7 +57,7 @@
                 </TextBlock>
 
                 <!--Design joystick-->
-                <local:Joystick Grid.Column="2" Grid.Row="2"/>
+                <local:Joystick Grid.Column="2" Grid.Row="2" />
             </Grid>
         </Grid>
     </Border>

@@ -24,6 +24,11 @@ namespace ex1.View
         public Graphs()
         {
             InitializeComponent();
+            lineG = new OxyPlot.Wpf.LineSeries()
+            {
+                Color = System.Windows.Media.Color.FromRgb(200, 50, 50),
+                StrokeThickness = 30,
+            };
         }
 
         // send to the view model the element that has been selected
@@ -37,13 +42,14 @@ namespace ex1.View
 
         }
 
+        /**
         // Take the user to exceptions points
         private void ExceptionPoints_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int exceptionFrame =  (int)sender;
             ((FlightInfoViewModel)this.DataContext).MoveToExceptionTime(exceptionFrame);
         }
-
+        */
        
     }
 }
