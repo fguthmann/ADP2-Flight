@@ -46,7 +46,6 @@ namespace ex1.Model
 
         public void OnNext(int value){ UpdateElements(value);}
 
-        // Start the flight
         public IData StartFlight (string inputCSV)
         {
             FGHandlerInitializer fghi = new FGHandlerInitializer();
@@ -57,7 +56,6 @@ namespace ex1.Model
             return data;
         }
 
-        // Close the fg handler thread
         public void Close()
         {
             Fg_handler.Close();

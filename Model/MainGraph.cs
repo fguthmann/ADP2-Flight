@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Regression;
 
 namespace ex1.Model
 {
@@ -12,6 +13,8 @@ namespace ex1.Model
     {
         private IData data;
         private string attrName;
+        DllData dllData;
+        public Dictionary<string, List<float>> Anomalies { get { return dllData.Anomalies; } }
         public string AttrName
         {
             get
@@ -44,9 +47,10 @@ namespace ex1.Model
             }
         }
 
-        public void setData(IData info)
+        public void setData(IData info, DllData dll)
         {
             data = info;
+            dllData = dll;
         }
 
 
@@ -56,7 +60,12 @@ namespace ex1.Model
             int i;
             for (i = Math.Max(0, frameIndex - 300); i <= frameIndex; i++)
             {
-                Add(new ScatterPoint(data.getElement(AttrName, i), data.getElement(correlativeName, i), 1, 200));
+                if (!Anomalies[attrName].Contains(i))
+                {
+                    Add(new ScatterPoint(data.getElement(AttrName, i), data.getElement(correlativeName, i), 1, 200));
+                    continue;
+                }
+                Add(new ScatterPoint(data.getElement(AttrName, i), data.getElement(correlativeName, i), 1, 800));
             }
         }
     }

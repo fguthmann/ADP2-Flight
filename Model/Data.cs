@@ -79,7 +79,11 @@ class CSData : IData
 
     public float getElement(string attr, int frame)
     {
-        return (attributes[attr])[frame];
+        if(attr != " ")
+        {
+            return (attributes[attr])[frame];
+        }
+        return 0;
     }
 
     public int getMaxIndex()

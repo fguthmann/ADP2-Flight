@@ -39,7 +39,7 @@ namespace ex1.Model
         }
         private void removeItems(int frameIndex)
         {
-            for (int i = this.Count; i > frameIndex; i--)
+            for (int i = this.Count - 1; i > frameIndex; i--)
             {
                 RemoveItem(i);
             }
@@ -47,6 +47,10 @@ namespace ex1.Model
 
         public void update(int frameIndex)
         {
+            if(attrName == " ")
+            {
+                return;
+            }
             if (frameIndex > Count)
             {
                 addFrames(frameIndex);
