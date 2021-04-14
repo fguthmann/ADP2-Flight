@@ -9,15 +9,14 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Collections.ObjectModel;
 using OxyPlot;
-using Regression;
-
+using System.Linq;
+using System.Reflection;
 
 namespace ex1.ViewModel
 {
 
     public class FlightInfoViewModel: INotifyPropertyChanged
     {
-        public AnomalyDetector anomaly;
         public event PropertyChangedEventHandler PropertyChanged;
         public FlightInfoModel model { get; private set; }
         // Notify that an element has been update to update all element
@@ -91,6 +90,7 @@ namespace ex1.ViewModel
         // Fast forward plus the flight
         public void VM_FastForwardPlus() { model.setTime((int)model.CurrentTime + 10); }
 
+        // Play the current time in second
         // Update the values of the different element when the frame is update
         public int VM_CurrentTime
         {
@@ -113,58 +113,55 @@ namespace ex1.ViewModel
 
         // Show the current speed
         public float VM_CurrentSpeed { get { return model.CurrentSpeed / (float)10; } }
-
+        private string pathToDll;
         public ObservableCollection<string> names { get; set; }
-        private Correlatives corr;
-
-        // Start the flight
-        public void RunFlight(string pathFileExceptionFile)
+        public Anomalis anomalis = new();
+        public void RunFlight(string pathFileNormalFile, string pathFileExceptionFile, string pathToDll)
         {
             IData data = model.StartFlight(pathFileExceptionFile);
             names = new ObservableCollection<string>(data.getAttrNames());
+            this.pathToDll = pathToDll;
+
+            Type[] externDllTypes = Assembly.LoadFile(@pathToDll).GetTypes();
+            dynamic ad = Activator.CreateInstance(externDllTypes[0], pathFileNormalFile, pathFileNormalFile, names.ToArray<string>());
+
+            DllData dlldata = new DllData(pathToDll, pathFileNormalFile, pathFileExceptionFile, names.ToList<string>());
+            anomalis.setData(data, dlldata);
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(names)));
+
             attrGraph.setData(data);
             correlativeGraph.setData(data);
-            DotsGraph.setData(data);
-            corr = new Correlatives(data.getAttrNames());
+            DotsGraph.setData(data, dlldata);
         }
 
-        // List of the points used for our graphs
         public CollectionProxy attrGraph { get; set; }
         public CollectionProxy correlativeGraph { get; set; }
         public MainGraph DotsGraph { get; set; }
 
 
-        //Change the attribute that need to be shown
+
         public void changeGraphPick(string attr)
         {
             attrGraph.AttrName = attr;
             DotsGraph.AttrName = attr;
-            string tmp = corr.getCorrelative(attr);
+            string tmp = anomalis.getCorrelative(attr);
             correlativeGraph.AttrName = tmp;
             DotsGraph.CorrelativeName = tmp;
+            anomalis.setAttr(attr);
 
             updateGraphes(model.CurrentTime * 10);
         }
-        public void MoveToExceptionTime(int exceptionTime)
-        {
-            model.setTime(exceptionTime);
 
-        }
-
-        // Update the graph depending of the time
         private void updateGraphes(int time)
         {
             attrGraph.update(time);
             correlativeGraph.update(time);
             DotsGraph.update(time);
-
         }
 
-        public void newAlgorithm(string pathNewAlgorithm)
-        {
+        
+        //public void MoveToExceptionTime(string exceptionFrame) { model.setTime(exceptionFrame); }
 
-        }
 
     }
 }
