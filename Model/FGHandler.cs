@@ -150,8 +150,8 @@ namespace ex1.Model
         public void Close()
         {
             Work = false;
-            _framesPerSecond = 10;
-            _currentFrame = 0;
+            FramesPerSecond = 10;
+            CurrentFrame = 0;
         }
         public IDisposable Subscribe(IObserver<int> observer)
         {
