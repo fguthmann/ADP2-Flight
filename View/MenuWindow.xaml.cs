@@ -23,7 +23,7 @@ namespace ex1.View
     /// </summary>
     public partial class MenuWindow : Window
     {
-        private string pathToDLL = "";
+        private string pathToDLL;
         private string pathFileExceptionFile = "anomaly_flight.csv";
         private string NormalFlightFileDownload = "reg_flight.csv";
         private bool ExceptionFlightFileDownload;
@@ -33,7 +33,7 @@ namespace ex1.View
         {
             FlightInfoViewModel flightInfoViewModel = new();
 
-            runFlight = new MainWindow();
+            runFlight = new MainWindow(this);
             runFlight.DataContext = flightInfoViewModel;
             DataContext = flightInfoViewModel;
 
@@ -92,7 +92,9 @@ namespace ex1.View
                 //runFlight.DataContext = (FlightInfoViewModel)this.DataContext);
                 runFlight.Show();
                 ((FlightInfoViewModel)this.DataContext).RunFlight(NormalFlightFileDownload, pathFileExceptionFile, pathToDLL);
-                this.Close();
+                this.Hide();
+                ExceptionFLight.Content = "Change exception flight file";
+                DllBox.Content = "Change dll file";
             }
         }
 
@@ -145,7 +147,7 @@ namespace ex1.View
 
 
                 // Show that file ha been download correctly
-                ExceptionFLight.Content = "Exception flight file downloaded";
+                DllBox.Content = "Dll file downloaded";
                 ExceptionFlightFileDownload = true;
 
             }

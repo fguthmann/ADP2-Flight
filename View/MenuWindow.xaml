@@ -56,16 +56,16 @@
         </StackPanel-->
 
         <!-- Drop/ download exeption flight-->
-        <Label Grid.Column="1" Grid.Row="2" x:Name="ExceptionFLight" Content="" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkOliveGreen" Background="Transparent" FontWeight="ExtraBold"/>
+        <Label Grid.Column="1" Grid.Row="2" Content="" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkOliveGreen" Background="Transparent" FontWeight="ExtraBold"/>
         <StackPanel Grid.Column="1" Grid.Row="4"  VerticalAlignment="Center" x:Name="exceptionFLightDrop" Drop="exceptionFLight_Drop" AllowDrop="True">
-            <Label Content="Drop/Upload exception flight file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
+            <Label x:Name="ExceptionFLight" Content="Drop/Upload exception flight file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
                 Background="LightGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
         </StackPanel>
 
 
         <Label Grid.Column="1" Grid.Row="6" x:Name="dllFile" Content="" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkOliveGreen" Background="Transparent" FontWeight="ExtraBold"/>
         <StackPanel Grid.Column="1" Grid.Row="6"  VerticalAlignment="Center" x:Name="dllFileDrop" Drop="dllFileDrop_Drop" AllowDrop="True">
-            <Label Content="Drop/Upload dll file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
+            <Label x:Name="DllBox" Content="Drop/Upload dll file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
                 Background="LightGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
         </StackPanel>
         <!-- Pick anomaly detection-->
