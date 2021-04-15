@@ -51,7 +51,7 @@ namespace ex1.Model
                 List<DataPoint> points = new();
                 for (int i = 0; i < n; i++)
                 {
-                    DataPoint tmp = new DataPoint(ad.getDraw(attr, i, true), ad.getDraw(attr, i, true));
+                    DataPoint tmp = new DataPoint(ad.getDraw(attr, i, true), ad.getDraw(attr, i, false));
                     points.Add(tmp);
                 }
                 draws.Add(attr, points);
