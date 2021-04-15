@@ -100,8 +100,7 @@ namespace ex1.Model
             set
             {
                 _work = value;
-                if (_work == false)
-                    Pause = true;
+                Pause = _work;
             }
         }
         public void InitialHandler(IData iData)
@@ -140,6 +139,7 @@ namespace ex1.Model
                 sendUdpLine(udpClient, 1);
                 Thread.Sleep(200);
                 udpClient.Close();
+                Work = true;
             }
             catch (Exception e)
             {
@@ -147,7 +147,12 @@ namespace ex1.Model
             }
         }
         public float GetElement(string element, int frame) { return data.getElement(element, frame);}
-        public void Close() { Work = false;}
+        public void Close()
+        {
+            Work = false;
+            _framesPerSecond = 10;
+            _currentFrame = 0;
+        }
         public IDisposable Subscribe(IObserver<int> observer)
         {
             observers.Add(observer);
