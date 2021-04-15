@@ -114,12 +114,23 @@ namespace ex1.ViewModel
         // Show the current speed
         public float VM_CurrentSpeed { get { return model.CurrentSpeed / (float)10; } }
         private string pathToDll;
-        public ObservableCollection<string> names { get; set; }
+        private ObservableCollection<string> _names = new();
+        public ObservableCollection<string> names { get { return _names; } }
         public Anomalis anomalis = new();
+        private void updateNames(List<string> src, ObservableCollection<string> dst)
+        {
+            dst.Clear();
+            foreach(string s in src)
+            {
+                dst.Add(s);
+            }
+        }
+
+
         public void RunFlight(string pathFileNormalFile, string pathFileExceptionFile, string pathToDll)
         {
             IData data = model.StartFlight(pathFileExceptionFile);
-            names = new ObservableCollection<string>(data.getAttrNames());
+            updateNames(data.getAttrNames(), names);
             this.pathToDll = pathToDll;
 
             Type[] externDllTypes = Assembly.LoadFile(@pathToDll).GetTypes();
@@ -134,20 +145,48 @@ namespace ex1.ViewModel
             DotsGraph.setData(data, dlldata);
         }
 
+
+
+
         public CollectionProxy attrGraph { get; set; }
         public CollectionProxy correlativeGraph { get; set; }
         public MainGraph DotsGraph { get; set; }
 
-
-
+        private string currentAttr;
+        public string CurrentAttr
+        {
+            get { return currentAttr; }
+            set
+            {
+                if(currentAttr != value)
+                {
+                    currentAttr = value;
+                    NotifyPropertyChanged(nameof(CurrentAttr));
+                }
+            }
+        }
+        private string correlativeAttr;
+        public string CorrelativeAttr
+        {
+            get { return correlativeAttr; }
+            set
+            {
+                if (correlativeAttr != value)
+                {
+                    correlativeAttr = value;
+                    NotifyPropertyChanged(nameof(CorrelativeAttr));
+                }
+            }
+        }
         public void changeGraphPick(string attr)
         {
-            attrGraph.AttrName = attr;
-            DotsGraph.AttrName = attr;
-            string tmp = anomalis.getCorrelative(attr);
-            correlativeGraph.AttrName = tmp;
-            DotsGraph.CorrelativeName = tmp;
-            anomalis.setAttr(attr);
+            currentAttr = attr;
+            correlativeAttr = anomalis.getCorrelative(currentAttr);
+            attrGraph.AttrName = currentAttr;
+            DotsGraph.AttrName = currentAttr;
+            correlativeGraph.AttrName = CorrelativeAttr;
+            DotsGraph.CorrelativeName = CorrelativeAttr;
+            anomalis.setAttr(currentAttr);
 
             updateGraphes(model.CurrentTime * 10);
         }
