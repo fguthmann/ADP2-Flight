@@ -1,0 +1,99 @@
+﻿<Window x:Class="ex1.View.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ex1.View"
+        mc:Ignorable="d"
+        Title="MenuWindow" Height="450" Width="800">
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!-- Background-->
+        <Image Grid.ColumnSpan="3" Grid.RowSpan="12" Source="/Images/pilot.jpg"/>
+        <!-- Tittle -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Flight Analayzer" HorizontalAlignment="Center" FontWeight="ExtraBold" FontSize="40" Foreground="DarkKhaki" VerticalAlignment="Top"/>
+        <!-- Option button-->
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--<Menu Grid.Column="0" Grid.Row="0"  Margin="25, 1, 0, 0">
+                <MenuItem Header="_Options">
+                    <MenuItem Header="_Add_new_detection_algorithm" Click="AddAlgorithm_Click"/>
+                </MenuItem>
+            </Menu>-->
+        </Grid>
+
+        <!-- Drop/Download file>
+        <Label Grid.Column="1" Grid.Row="1" x:Name="FileNameLabel" Content="" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkCyan" Background="Transparent" FontWeight="ExtraBold"/>
+        <StackPanel Grid.Column="1" Grid.Row="2"  VerticalAlignment="Center" x:Name="FileDrop" Drop="NormalFLight_Drop" AllowDrop="True">
+            <Label Content="Drop/Upload normal flight file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
+                Background="LightGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        </StackPanel-->
+
+        <!-- Drop/ download exeption flight-->
+        <Label Grid.Column="1" Grid.Row="2" Content="" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkOliveGreen" Background="Transparent" FontWeight="ExtraBold"/>
+        <StackPanel Grid.Column="1" Grid.Row="4"  VerticalAlignment="Center" x:Name="exceptionFLightDrop" Drop="exceptionFLight_Drop" AllowDrop="True">
+            <Label x:Name="ExceptionFLight" Content="Drop/Upload exception flight file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
+                Background="LightGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        </StackPanel>
+
+
+        <Label Grid.Column="1" Grid.Row="6" x:Name="dllFile" Content="" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkOliveGreen" Background="Transparent" FontWeight="ExtraBold"/>
+        <StackPanel Grid.Column="1" Grid.Row="6"  VerticalAlignment="Center" x:Name="dllFileDrop" Drop="dllFileDrop_Drop" AllowDrop="True">
+            <Label x:Name="DllBox" Content="Drop/Upload dll file"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
+                Background="LightGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        </StackPanel>
+        <!-- Pick anomaly detection-->
+       <!-- <Grid ShowGridLines="False" Grid.Column="1" Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.5*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Pick anomaly detection:"  FontSize="12" Foreground="DarkCyan" FontWeight="ExtraBold" BorderBrush="Gray" BorderThickness="1"
+                Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
+            <Grid Grid.Row="1" ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="RegisterAlgo" Grid.Column="0" Content="Register"  FontSize="20" Foreground="DarkCyan" FontWeight="ExtraBold"
+                Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="RegisterAlgo_Click"/>
+                <Button Name="InternCircleAlgo" Grid.Column="1" Content="Intern circle"  FontSize="20" Foreground="DarkCyan" FontWeight="ExtraBold"
+                Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="InternCircleAlgo_Click"/>
+            </Grid>
+        </Grid>-->
+
+        <!-- Button run flight-->
+        <Button Name="RunFlight" Grid.Column="1" Grid.Row="8" Content="Run Flight"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold"
+                Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="RunFlight_Click"/>
+        <!-- Button to cloe the program-->
+        <Button Name="Close" Grid.Column="1" Grid.Row="10" Content="Close"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold"
+                Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="Close_Click"/>
+
+    </Grid>
+</Window>

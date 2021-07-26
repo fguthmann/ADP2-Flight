@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="ex1.View.MediaPlayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ex1.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="800">
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- To delimit our media player-->
+        <Border BorderBrush="Black" BorderThickness="1"/>
+        <Grid Grid.Row="0" ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- The buttons open and button related to the media player-->
+            <Grid Grid.Column="0" ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <!--Button open-->
+                <!--Button x:Name="open" Content="Open" Click="Open_Click" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Silver"  BorderThickness="0" FontSize="20" FontWeight="UltraLight"/-->
+                <!-- Grid for the different buttons of the media player-->
+                <Grid Grid.Column="1" ShowGridLines="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="SlowForwardPlus" BorderThickness="0" Click="SlowForwardPlus_Click" Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewSlowForwardPlus.png" HorizontalAlignment="Stretch"/>
+                    </Button>
+                    <Button Grid.Column="1" x:Name="SlowForward"  BorderThickness="0" Click="SlowForward_Click"  Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewSlowForward.png"/>
+                    </Button>
+                    <Button Grid.Column="2" x:Name="Play"  BorderThickness="0" Click="Play_Click" Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewPlay.png"/>
+                    </Button>
+                    <Button Grid.Column="3" x:Name="Pause"  BorderThickness="0" Click="Pause_Click" Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewPause.png"/>
+                    </Button>
+                    <Button Grid.Column="4" x:Name="Stop"  BorderThickness="0" Click="Stop_Click"  Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewStop.png"/>
+                    </Button>
+                    <Button Grid.Column="5" x:Name="FastForward"  BorderThickness="0" Click="FastForward_Click"  Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewFastForward.png"/>
+                    </Button>
+                    <Button Grid.Column="6" x:Name="FastForwardSuper"  BorderThickness="0" Click="FastForwardSuper_Click" Background="Transparent">
+                        <Image Source="pack://application:,,,/ex1;component/Images/NewFastForwardPlus.png"/>
+                    </Button>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1" ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Play speed" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Foreground="Black" Background="Transparent" FontStyle="Normal" FontWeight="Bold"/>
+                <TextBox Grid.Column="1" x:Name="Play_speed" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True"  Background="Transparent" BorderBrush="Black" BorderThickness="1" Text="{Binding VM_CurrentSpeed, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=N2}"/>
+                <TextBox Grid.Column="2" x:Name="Time" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True"  Background="Transparent"  BorderBrush="Black" BorderThickness="1" Text="{Binding VM_TimeString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+
+            </Grid>
+        </Grid>
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1"/>
+        <Slider Minimum="0" Maximum="{Binding VM_MaxFrame, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Grid.Row="1" Margin="5, 0, 5, 0" Value="{Binding VM_CurrentTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+    </Grid>
+</UserControl>

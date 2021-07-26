@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="ex1.View.Graphs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:local="clr-namespace:ex1.View"
+             xmlns:viewmodel="clr-namespace:ex1.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:FlightInfoViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid ShowGridLines="True" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <!-- List Box -->
+        <ListBox Grid.Column="0" ItemsSource="{Binding Path=names, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <!--  <ListBox x:Name="ExceptionPoints" Grid.Column="1" ItemsSource="{Binding Path=anomalis.Anomalies, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ExceptionPoints_MouseDoubleClick" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>-->
+        <Grid ShowGridLines="True" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid ShowGridLines="True" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Graph of the correlative attribut-->
+                <oxy:Plot Grid.Column="1" Title="{Binding correlativeGraph.AttrName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                    <oxy:Plot.Series>
+                        <oxy:LineSeries ItemsSource="{Binding correlativeGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                    </oxy:Plot.Series>
+                </oxy:Plot>
+
+                <!-- Graph of the attribute selctionnated-->
+                <oxy:Plot Grid.Column="0" Title="{Binding attrGraph.AttrName, Mode=OneWay}">
+                    <oxy:Plot.Series>
+                        <oxy:LineSeries ItemsSource="{Binding attrGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                    </oxy:Plot.Series>
+                </oxy:Plot>
+            </Grid>
+            <!-- Graph of the last 30 seconds of the flight-->
+            <oxy:Plot Grid.Column="1" Grid.Row="1" Title="30 Seconds Graph">
+                <oxy:Plot.Series>
+                    <oxy:ScatterSeries x:Name="pointsG" ItemsSource="{Binding DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <oxy:LineSeries x:Name="lineG" ItemsSource="{Binding anomalis.Draw, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                </oxy:Plot.Series>
+            </oxy:Plot>
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>
