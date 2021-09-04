@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\idoav\\source\\repos\\ADP2-Flight1\\ex1\\ex1.csproj": {}
+    "C:\\Users\\idoav\\source\\repos\\ADP2-Flight3\\ex1\\ex1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\idoav\\source\\repos\\ADP2-Flight1\\ex1\\ex1.csproj": {
+    "C:\\Users\\idoav\\source\\repos\\ADP2-Flight3\\ex1\\ex1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\idoav\\source\\repos\\ADP2-Flight1\\ex1\\ex1.csproj",
+        "projectUniqueName": "C:\\Users\\idoav\\source\\repos\\ADP2-Flight3\\ex1\\ex1.csproj",
         "projectName": "ex1",
-        "projectPath": "C:\\Users\\idoav\\source\\repos\\ADP2-Flight1\\ex1\\ex1.csproj",
+        "projectPath": "C:\\Users\\idoav\\source\\repos\\ADP2-Flight3\\ex1\\ex1.csproj",
         "packagesPath": "C:\\Users\\idoav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\idoav\\source\\repos\\ADP2-Flight1\\ex1\\obj\\",
+        "outputPath": "C:\\Users\\idoav\\source\\repos\\ADP2-Flight3\\ex1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\idoav\\AppData\\Roaming\\NuGet\\NuGet.Config",

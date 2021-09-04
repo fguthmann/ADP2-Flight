@@ -1,19 +1,19 @@
 ﻿ex1
-1.0.0.0
+
 
 winexe
 C#
 .cs
-C:\Users\idoav\source\repos\ADP2-Flight3\ex1\obj\Debug\net5.0-windows\
+C:\Users\idoav\Source\Repos\ADP2-Flight3\ex1\obj\Release\net5.0-windows\
 ex1
 none
 false
-TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-C:\Users\idoav\source\repos\ADP2-Flight3\ex1\App.xaml
+TRACE;RELEASE;NET;NET5_0;NETCOREAPP
+C:\Users\idoav\Source\Repos\ADP2-Flight3\ex1\App.xaml
 8-1414357116
 
-23920152600
-1961447923661
+211252069962
+196-1445927539
 View\AddNewAlgorithm.xaml;View\Graphs.xaml;View\InformationTable.xaml;View\Joystick.xaml;View\MainWindow.xaml;View\MediaPlayer.xaml;View\MenuWindow.xaml;View\Sliders.xaml;
 
 True
