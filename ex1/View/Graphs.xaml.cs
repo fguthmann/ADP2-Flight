@@ -29,6 +29,9 @@ namespace ex1.View
                 Color = System.Windows.Media.Color.FromRgb(200, 50, 50),
                 StrokeThickness = 30,
             };
+            pointsG = new OxyPlot.Wpf.ScatterSeries() { Color = Color.FromRgb(20, 20, 150) };
+            anomsG = new OxyPlot.Wpf.ScatterSeries() { Color = Color.FromRgb(200, 20, 20) };
+
         }
 
         // send to the view model the element that has been selected
@@ -38,7 +41,7 @@ namespace ex1.View
             char[] separator = { ' ', ' ' };
             String[] strlist = sender.ToString().Split(separator, StringSplitOptions.None);
             string attr = strlist[1];
-            ((FlightInfoViewModel)this.DataContext).changeGraphPick(attr);
+            ((FlightInfoViewModel)this.DataContext).ChangeAttrPick(attr);
 
         }
 

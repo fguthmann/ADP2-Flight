@@ -40,23 +40,24 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- Graph of the correlative attribut-->
-                <oxy:Plot Grid.Column="1" Title="{Binding correlativeGraph.AttrName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                <oxy:Plot Grid.Column="1" Title="{Binding correlative, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                     <oxy:Plot.Series>
-                        <oxy:LineSeries ItemsSource="{Binding correlativeGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                        <oxy:LineSeries ItemsSource="{Binding graphes.CorrelativeGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                     </oxy:Plot.Series>
                 </oxy:Plot>
 
                 <!-- Graph of the attribute selctionnated-->
-                <oxy:Plot Grid.Column="0" Title="{Binding attrGraph.AttrName, Mode=OneWay}">
+                <oxy:Plot Grid.Column="0" Title="{Binding attribute, Mode=OneWay}">
                     <oxy:Plot.Series>
-                        <oxy:LineSeries ItemsSource="{Binding attrGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                        <oxy:LineSeries ItemsSource="{Binding graphes.AttrGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                     </oxy:Plot.Series>
                 </oxy:Plot>
             </Grid>
             <!-- Graph of the last 30 seconds of the flight-->
             <oxy:Plot Grid.Column="1" Grid.Row="1" Title="30 Seconds Graph">
                 <oxy:Plot.Series>
-                    <oxy:ScatterSeries x:Name="pointsG" ItemsSource="{Binding DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <oxy:ScatterSeries x:Name="pointsG" ItemsSource="{Binding graphes.DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <oxy:ScatterSeries x:Name="anomsG" ItemsSource="{Binding graphes.AnomalisGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <oxy:LineSeries x:Name="lineG" ItemsSource="{Binding anomalis.Draw, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                 </oxy:Plot.Series>
             </oxy:Plot>

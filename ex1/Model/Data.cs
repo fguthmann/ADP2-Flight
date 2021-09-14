@@ -10,6 +10,7 @@ public interface IData
     int getMaxIndex();
     string getChunk(int num);
     float getElement(string attr, int frame);
+    List<float> getAttElements(string attr);
     List<string> getAttrNames();
 }
 
@@ -59,11 +60,16 @@ class CSData : IData
 
     }
 
+    public List<float> getAttElements(string attr)
+    {
+        if (attributes.ContainsKey(attr))
+            return new List<float>(attributes[attr]);
+        return null;
+    }
+
     public List<string> getAttrNames()
     {
-        List<string> tmp = new();
-        tmp.AddRange(attsNames);
-        return tmp;
+        return new List<string>(attsNames);
     }
 
     public string getChunk(int num)
@@ -90,6 +96,7 @@ class CSData : IData
     {
         return frames.Count - 1;
     }
+
 }
 
 /**

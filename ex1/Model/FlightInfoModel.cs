@@ -10,6 +10,8 @@ namespace ex1.Model
     public class FlightInfoModel : INotifyPropertyChanged, IObserver<int>
     {
         private FGHandler Fg_handler;
+        private IData data;
+        private DllData dllData;
         public FlightInfoModel()
         {
             Fg_handler = new FGClient();
@@ -18,20 +20,20 @@ namespace ex1.Model
 
         public void UpdateElements(int currentFrame)
         {
-            Altimeter = Fg_handler.GetElement("altimeter_indicated-altitude-ft", currentFrame);
-            AirSpeed = Fg_handler.GetElement("airspeed-kt", currentFrame);
-            Direction = Fg_handler.GetElement("heading-deg", currentFrame);
-            Roll = Fg_handler.GetElement("roll-deg", currentFrame);
-            Pitch = Fg_handler.GetElement("pitch-deg", currentFrame);
-            Yaw = Fg_handler.GetElement("side-slip-deg", currentFrame);
-            Aileron = Fg_handler.GetElement("aileron", currentFrame);
-            Elevator = Fg_handler.GetElement("elevator", currentFrame);
-            Throttle = Fg_handler.GetElement("throttle", currentFrame);
-            Rudder = Fg_handler.GetElement("rudder", currentFrame);
+            Altimeter = GetElement("altimeter_indicated-altitude-ft", currentFrame);
+            AirSpeed = GetElement("airspeed-kt", currentFrame);
+            Direction = GetElement("heading-deg", currentFrame);
+            Roll = GetElement("roll-deg", currentFrame);
+            Pitch = GetElement("pitch-deg", currentFrame);
+            Yaw = GetElement("side-slip-deg", currentFrame);
+            Aileron = GetElement("aileron", currentFrame);
+            Elevator = GetElement("elevator", currentFrame);
+            Throttle = GetElement("throttle", currentFrame);
+            Rudder = GetElement("rudder", currentFrame);
             CurrentTime = Fg_handler.CurrentFrame /10;
             CurrentSpeed = Fg_handler.FramesPerSecond;
-            TimeString = TimeSpan.FromSeconds(currentTime).ToString("hh':'mm':'ss");
-        } 
+            TimeString = TimeSpan.FromSeconds(currentTime).ToString("hh':'mm':'ss");        //maybe should pass to VM
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         //This will update the listeners anytime we update an important stat, mostly currentFrame.
@@ -41,36 +43,58 @@ namespace ex1.Model
         }
 
         public void OnCompleted(){}
-
         public void OnError(Exception error){}
-
         public void OnNext(int value){ UpdateElements(value);}
-
-        public IData StartFlight (string inputCSV)
+        //should return void/////////////////////////////////////////////////////////////////
+        public List<string> StartFlight (string DllPath, string inputCSV)
         {
             FGHandlerInitializer fghi = new FGHandlerInitializer();
-            IData data = fghi.initializeData(inputCSV);
-            fghi.RunFlight(Fg_handler, data);
+            data = fghi.initializeData(inputCSV, Fg_handler);
+            //should remove data from constructor//////////////////////////////////////
+            dllData = new(DllPath, inputCSV, data);
+            fghi.RunFlight(Fg_handler);
             MaxFrame = Fg_handler.MaxFrame;
             NotifyPropertyChanged(nameof(MaxFrame));
-            return data;
+            return data.getAttrNames();
         }
+        private float GetElement(string element, int frame) { return data.getElement(element, frame); }
 
-        public void Close()
-        {
-            Fg_handler.Close();
-
-        }
-
+        public void Close() { Fg_handler.Close();}
         public void Play(){ Fg_handler.Pause = false;}
-
         public void Pause(){ Fg_handler.Pause = true;}
 
+        public string GetCorelative(string attr)
+        {
+            if (dllData.IsCorrelative(attr))
+                return dllData.Correlative(attr);
+            return null;
+        }
+        public bool IsCircle(string attr)
+        {
+            return dllData.IsCircle(attr);
+        }
+        public List<float> GetShape(string attr)
+        {
+            return dllData.GetShape(attr);
+        }
+        /*Return all vals in specific range, including anomalies.*/
+        public List<float> GetRange(string attr, int start_index, int end_index)
+        {
+            return data.getAttElements(attr).GetRange(Math.Max(0, start_index), Math.Max(0, Math.Min(maxFrame, end_index - start_index)));
+        }
+
+        public List<float> GetAnomalies(string attr, int curr_frame)
+        {
+            List<float> anoms = new();
+            foreach(int i in dllData.GetAnomalies(attr, Math.Max(0, curr_frame - 300), Math.Min(MaxFrame, curr_frame)))
+                anoms.Add(data.getElement(attr, i));
+            return anoms;
+        }
 
         private int currentTime;
         public int CurrentTime
         {
-            get{ return currentTime;}
+            get=> currentTime;
             set
             {
                 if (currentTime != value)
@@ -80,13 +104,11 @@ namespace ex1.Model
                 }
             }
         }
-
         public void setTime(int second){ Fg_handler.CurrentFrame = second * 10;}
-
         private string timestring;
         public string TimeString
         {
-            get{ return timestring;}
+            get=> timestring;
             set
             {
                 if (timestring != value)
@@ -96,13 +118,11 @@ namespace ex1.Model
                 }
             }
         }
-
         public void setSpeed(float speed){ Fg_handler.FramesPerSecond = (int) speed;}
-
         private float currentSpeed;
         public float CurrentSpeed
         {
-            get{ return currentSpeed;}
+            get=> currentSpeed;
             set
             {
                 if (currentSpeed != value)
@@ -116,7 +136,7 @@ namespace ex1.Model
         private int maxFrame;
         public int MaxFrame
         {
-            get { return maxFrame;}
+            get => maxFrame;
             set
             {
                 if (value != maxFrame)
@@ -127,11 +147,10 @@ namespace ex1.Model
             }
         }
 
-
         private float altimeter;
         public float Altimeter
         {
-            get { return altimeter;}
+            get => altimeter;
             set
             {
                 if (altimeter != value)
@@ -141,11 +160,10 @@ namespace ex1.Model
                 }
             }
         }
-
         private float airSpeed;
         public float AirSpeed
         {
-            get { return airSpeed;}
+            get => airSpeed;
             set
             {
                 if (airSpeed != value)
@@ -155,11 +173,10 @@ namespace ex1.Model
                 }
             }
         }
-
         private float direction;
         public float Direction
         {
-            get { return direction; }
+            get => direction;
             set
             {
                 if (direction != value)
@@ -169,11 +186,10 @@ namespace ex1.Model
                 }
             }
         }
-
         private float roll;
         public float Roll
         {
-            get { return roll;}
+            get => roll;
             set
             {
                 if (roll != value)
@@ -183,11 +199,10 @@ namespace ex1.Model
                 }
             }
         }
-
         private float pitch;
         public float Pitch
         {
-            get { return pitch;}
+            get => pitch;
             set
             {
                 if (pitch != value)
@@ -197,11 +212,10 @@ namespace ex1.Model
                 }
             }
         }
-
         private float yaw;
         public float Yaw
         {
-            get { return yaw;}
+            get => yaw;
             set
             {
                 if (yaw != value)
@@ -211,11 +225,10 @@ namespace ex1.Model
                 }
             }
         }
-
         private float aileron;
         public float Aileron
         {
-            get { return aileron;}
+            get => aileron;
             set
             {
                 if (aileron != value)
@@ -228,7 +241,7 @@ namespace ex1.Model
         private float elevator;
         public float Elevator
         {
-            get { return elevator;}
+            get => elevator;
             set
             {
                 if (elevator != value)
@@ -241,7 +254,7 @@ namespace ex1.Model
         private float throttle;
         public float Throttle
         {
-            get { return throttle;}
+            get => throttle;
             set
             {
                 if (throttle != value)
@@ -251,12 +264,10 @@ namespace ex1.Model
                 }
             }
         }
-
-
         private float rudder;
         public float Rudder
         {
-            get { return rudder;}
+            get => rudder;
             set
             {
                 if (rudder != value)
@@ -266,7 +277,5 @@ namespace ex1.Model
                 }
             }
         }
-
-
     }
 }

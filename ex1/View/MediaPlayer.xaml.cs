@@ -66,5 +66,10 @@ namespace ex1.View
         {
             ((FlightInfoViewModel)this.DataContext).VM_Pause();
         }
+
+        private void Time_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ex1.Model
 {
+    /**
     public class Anomalis
     {
         private IData data;
@@ -43,4 +44,5 @@ namespace ex1.Model
             dllData = dllDat;
         }
     }
+    */
 }

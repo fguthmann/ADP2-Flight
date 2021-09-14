@@ -21,8 +21,6 @@ namespace ex1.Model
         public void InitialHandler(IData iData);
         //Start the projection.
         public void Start();
-        //Return the desired Element.
-        public float GetElement(string element, int frame);
         //Close the communication.
         public void Close();
     }
@@ -31,7 +29,7 @@ namespace ex1.Model
     //FGClient operating the FlightGear using client-server communication.
     public class FGClient : FGHandler
     {
-        private IData data;
+        private Dictionary<int, string> frames = new();
         private List<IObserver<int>> observers = new();
 
         private int _maxFrame;
@@ -105,9 +103,10 @@ namespace ex1.Model
         }
         public void InitialHandler(IData iData)
         {
-            data = iData;
+            MaxFrame = iData.getMaxIndex();
+            for (int i = 0; i < MaxFrame; i++)
+                frames[i] = iData.getChunk(i);
             //default speed is 10 frames per second
-            MaxFrame = data.getMaxIndex();
         }
         /**
          * Thats the udp client, using udp client over tcp will allow us to login multiple time
@@ -115,7 +114,7 @@ namespace ex1.Model
          */
         private void sendUdpLine(UdpClient udpClient, int index)
         {
-            string frame = data.getChunk(index);
+            string frame = frames[index];
             //sendings
             byte[] bytes = Encoding.ASCII.GetBytes(frame);
             udpClient.Send(bytes, bytes.Length, "localHost", 5400);
@@ -146,7 +145,6 @@ namespace ex1.Model
                 Console.WriteLine(e.ToString());
             }
         }
-        public float GetElement(string element, int frame) { return data.getElement(element, frame);}
         public void Close()
         {
             Work = false;
@@ -161,8 +159,8 @@ namespace ex1.Model
     }
 }
 /**
-*tcp client
-    public void Start1()
+tcp client
+    public void Start()
     {
         try
         {

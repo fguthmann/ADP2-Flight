@@ -9,6 +9,7 @@ using Regression;
 
 namespace ex1.Model
 {
+    /**
     public class MainGraph : ObservableCollection<ScatterPoint>
     {
         private IData data;
@@ -69,4 +70,5 @@ namespace ex1.Model
             }
         }
     }
+    */
 }

@@ -19,6 +19,7 @@ namespace ex1.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public FlightInfoModel model { get; private set; }
+        public GraphesVM graphes { get; init; } = new();
         // Notify that an element has been update to update all element
         public FlightInfoViewModel()
         {
@@ -27,51 +28,36 @@ namespace ex1.ViewModel
             {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
-            attrGraph = new();
-            correlativeGraph = new();
-            DotsGraph = new();
         }
 
         // Call the function that need to be update
         public void NotifyPropertyChanged(string propName)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
         //private float convertion;
-
-        public int VM_MaxFrame
-        {
-            get
-            {
-                return model.MaxFrame / 10;
-            }
-        }
-
+        public int VM_MaxFrame => model.MaxFrame / 10;
         //Get the new value of the general information to show it where needed
-        public float VM_Altimeter { get { return model.Altimeter; } }
-        public float VM_AirSpeed { get { return model.AirSpeed; } }
-        public float VM_Direction { get { return model.Direction; } }
-        public float VM_Roll { get { return model.Roll; } }
-        public float VM_Pitch { get { return model.Pitch; } }
-        public float VM_Yaw { get { return model.Yaw; } }
-        public float VM_Aileron { get { return model.Aileron * 300; } }
-        public float VM_Elevator { get { return model.Elevator * 300; } }
-        public float VM_Throttle { get { return model.Throttle; } }
-        public float VM_Rudder { get { return model.Rudder; } }
+        public float VM_Altimeter => model.Altimeter;
+        public float VM_AirSpeed => model.AirSpeed;
+        public float VM_Direction => model.Direction;
+        public float VM_Roll => model.Roll;
+        public float VM_Pitch => model.Pitch;
+        public float VM_Yaw => model.Yaw;
+        public float VM_Aileron => model.Aileron * 300;
+        public float VM_Elevator => model.Elevator * 300;
+        public float VM_Throttle => model.Throttle;
+        public float VM_Rudder => model.Rudder;
 
         // Call the close function to close the program
         public void VM_close() { model.Close(); }
-
         // Slow forward plus the flight
         public void VM_SlowForwardPlus() { model.setTime((int)model.CurrentTime - 10); }
-
         // Slow forward the flight
         public void VM_SlowForward() { model.setSpeed(model.CurrentSpeed - 1); }
-
         // Play the flight
         public void VM_Play() { model.Play(); }
-
         // Pause the flight
         public void VM_Pause() { model.Pause(); }
         // Restart the flight from beginning
@@ -79,44 +65,46 @@ namespace ex1.ViewModel
         {
             model.Play();
             model.setTime(0);
-            Thread.Sleep(200);
+            Thread.Sleep(100);
             model.Pause();
-
         }
-
         // Fast forward the flight
         public void VM_FastForward() { model.setSpeed(model.CurrentSpeed + 1); }
-
         // Fast forward plus the flight
         public void VM_FastForwardPlus() { model.setTime((int)model.CurrentTime + 10); }
-
         // Play the current time in second
         // Update the values of the different element when the frame is update
         public int VM_CurrentTime
         {
             get
             {
-                if (correlativeGraph.AttrName != null)
-                {
-                    updateGraphes(model.CurrentTime * 10);
-                }
+                ////////////////////////////////////////////////check if needed
+                UpdateGraphes();
                 return model.CurrentTime;
             }
             set { model.setTime(value); }
         }
 
-
-
         // SHow the current time as string
-        public string VM_TimeString { get { return model.TimeString; } }
-
+        public string VM_TimeString
+        {
+            get
+            {
+                if(model.TimeString != null)
+                    UpdateGraphes();
+                return model.TimeString; ;
+            }
+        }
 
         // Show the current speed
-        public float VM_CurrentSpeed { get { return model.CurrentSpeed / (float)10; } }
+        public float VM_CurrentSpeed => model.CurrentSpeed / (float)10;
         private string pathToDll;
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
         private ObservableCollection<string> _names = new();
-        public ObservableCollection<string> names { get { return _names; } }
-        public Anomalis anomalis = new();
+        public ObservableCollection<string> names { get => _names; }
+        //public Anomalis anomalis = new();
         private void updateNames(List<string> src, ObservableCollection<string> dst)
         {
             dst.Clear();
@@ -129,78 +117,47 @@ namespace ex1.ViewModel
 
         public void RunFlight(string pathFileNormalFile, string pathFileExceptionFile, string pathToDll)
         {
-            IData data = model.StartFlight(pathFileExceptionFile);
-            updateNames(data.getAttrNames(), names);
             this.pathToDll = pathToDll;
+            List<string> new_names = model.StartFlight(pathToDll, pathFileExceptionFile);
+            updateNames(new_names, names);
 
-            Type[] externDllTypes = Assembly.LoadFile(@pathToDll).GetTypes();
-            dynamic ad = Activator.CreateInstance(externDllTypes[0], pathFileNormalFile, pathFileNormalFile, names.ToArray<string>());
-
-            DllData dlldata = new DllData(pathToDll, pathFileNormalFile, pathFileExceptionFile, names.ToList<string>());
-            anomalis.setData(data, dlldata);
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(names)));
 
-            attrGraph.setData(data);
-            correlativeGraph.setData(data);
-            DotsGraph.setData(data, dlldata);
         }
 
-
-
-
-        public CollectionProxy attrGraph { get; set; }
-        public CollectionProxy correlativeGraph { get; set; }
-        public MainGraph DotsGraph { get; set; }
-
-        private string currentAttr;
-        public string CurrentAttr
+        /// <summary>
+        /// //////////////////////////////////////////////////////////////////
+        /// </summary>
+        public string attribute = new("Choose Attribute");
+        public string correlative = new("No Correlative");
+        private void UpdateGraphes()
         {
-            get { return currentAttr; }
-            set
-            {
-                if(currentAttr != value)
-                {
-                    currentAttr = value;
-                    NotifyPropertyChanged(nameof(CurrentAttr));
-                }
-            }
+            graphes.EmptyGraphes();
+            if (attribute.Equals("Choose Attribute"))
+                return;
+            int frame = model.CurrentTime * 10;
+            graphes.UpdateGraph(model.GetRange(attribute, 0, frame), GraphesNames.ATTR);
+            if (correlative.Equals("No Correlative"))
+                return;
+            graphes.UpdateGraph(model.GetRange(correlative, 0, frame), GraphesNames.COR);
+            graphes.UpdateGraph(model.GetRange(attribute, frame - 300, frame), GraphesNames.DOT);
+            graphes.UpdateGraph(model.GetAnomalies(attribute, frame), GraphesNames.ANOM);
         }
-        private string correlativeAttr;
-        public string CorrelativeAttr
+        public void ChangeAttrPick(string attr)
         {
-            get { return correlativeAttr; }
-            set
-            {
-                if (correlativeAttr != value)
-                {
-                    correlativeAttr = value;
-                    NotifyPropertyChanged(nameof(CorrelativeAttr));
-                }
-            }
-        }
-        public void changeGraphPick(string attr)
-        {
-            currentAttr = attr;
-            correlativeAttr = anomalis.getCorrelative(currentAttr);
-            attrGraph.AttrName = currentAttr;
-            DotsGraph.AttrName = currentAttr;
-            correlativeGraph.AttrName = CorrelativeAttr;
-            DotsGraph.CorrelativeName = CorrelativeAttr;
-            anomalis.setAttr(currentAttr);
-
-            updateGraphes(model.CurrentTime * 10);
+            attribute = attr;
+            correlative = "No Correlative";
+            graphes.RemoveShapes();
+            if (model.GetCorelative(attribute) == null)
+                return;
+            correlative = model.GetCorelative(attribute);
+            if (model.IsCircle(attribute))
+                graphes.DrawCircle(model.GetShape(attribute));
+            else
+                graphes.DrawShape(model.GetShape(attribute));
+            UpdateGraphes();
         }
 
-        private void updateGraphes(int time)
-        {
-            attrGraph.update(time);
-            correlativeGraph.update(time);
-            DotsGraph.update(time);
-        }
-
-        
         //public void MoveToExceptionTime(string exceptionFrame) { model.setTime(exceptionFrame); }
-
-
     }
 }
