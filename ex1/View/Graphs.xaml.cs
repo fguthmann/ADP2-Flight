@@ -29,8 +29,8 @@ namespace ex1.View
                 Color = System.Windows.Media.Color.FromRgb(200, 50, 50),
                 StrokeThickness = 30,
             };
-            pointsG = new OxyPlot.Wpf.ScatterSeries() { Color = Color.FromRgb(20, 20, 150) };
-            anomsG = new OxyPlot.Wpf.ScatterSeries() { Color = Color.FromRgb(200, 20, 20) };
+            pointsG = new OxyPlot.Wpf.ScatterSeries();
+            anomsG = new OxyPlot.Wpf.ScatterSeries();
 
         }
 
@@ -45,6 +45,8 @@ namespace ex1.View
 
         }
 
+        private void JumpNextAnomaly(object sender, RoutedEventArgs e) => ((FlightInfoViewModel)this.DataContext).JumpNextAnomaly();
+
         /**
         // Take the user to exceptions points
         private void ExceptionPoints_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -53,6 +55,6 @@ namespace ex1.View
             ((FlightInfoViewModel)this.DataContext).MoveToExceptionTime(exceptionFrame);
         }
         */
-       
+
     }
 }

@@ -8,20 +8,29 @@
              xmlns:viewmodel="clr-namespace:ex1.ViewModel"
              d:DataContext="{d:DesignInstance Type=viewmodel:FlightInfoViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="440" Width="555">
     <Grid ShowGridLines="True" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <!-- List Box -->
-        <ListBox Grid.Column="0" ItemsSource="{Binding Path=names, UpdateSourceTrigger=PropertyChanged}">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+        <Grid ShowGridLines="False" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- List Box -->
+            <ListBox Grid.Row="0" ItemsSource="{Binding Path=names, UpdateSourceTrigger=PropertyChanged}" Background="Transparent">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <Button Name="Anomaly" Grid.Row="1" Content="Find next anomaly"  FontSize="15" Foreground="Black" Background="Transparent" FontWeight="Bold"
+                VerticalAlignment="Bottom" IsDefault="True" IsEnabled="{Binding IsNextAnomaly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Click="JumpNextAnomaly"/>
+        </Grid>
+
         <!--  <ListBox x:Name="ExceptionPoints" Grid.Column="1" ItemsSource="{Binding Path=anomalis.Anomalies, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -29,10 +38,10 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>-->
-        <Grid ShowGridLines="True" Grid.Column="2">
+        <Grid ShowGridLines="True" Grid.Column="2" Background="Transparent">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
             <Grid ShowGridLines="True" Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -40,26 +49,34 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- Graph of the correlative attribut-->
-                <oxy:Plot Grid.Column="1" Title="{Binding correlative, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                <oxy:Plot Grid.Column="1" Title="{Binding Correlative, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" TitleFontSize="10" Background="Transparent">
                     <oxy:Plot.Series>
                         <oxy:LineSeries ItemsSource="{Binding graphes.CorrelativeGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                     </oxy:Plot.Series>
                 </oxy:Plot>
 
                 <!-- Graph of the attribute selctionnated-->
-                <oxy:Plot Grid.Column="0" Title="{Binding attribute, Mode=OneWay}">
+                <oxy:Plot Grid.Column="0" Title="{Binding Attribute, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TitleFontSize="10" Background="Transparent">
                     <oxy:Plot.Series>
                         <oxy:LineSeries ItemsSource="{Binding graphes.AttrGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
                     </oxy:Plot.Series>
                 </oxy:Plot>
             </Grid>
             <!-- Graph of the last 30 seconds of the flight-->
-            <oxy:Plot Grid.Column="1" Grid.Row="1" Title="30 Seconds Graph">
+            <oxy:Plot Grid.Row="1" Title="30 Seconds Graph" Background="Transparent">
+                <oxy:Plot.Axes>
+                    <oxy:LinearAxis Position="Bottom" TickStyle="Outside" AxislineStyle="Dot" />
+                    <oxy:LinearAxis Position="Left" TickStyle="Outside" AxislineStyle="Solid"/>
+                </oxy:Plot.Axes>
                 <oxy:Plot.Series>
-                    <oxy:ScatterSeries x:Name="pointsG" ItemsSource="{Binding graphes.DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <oxy:ScatterSeries x:Name="anomsG" ItemsSource="{Binding graphes.AnomalisGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <oxy:LineSeries x:Name="lineG" ItemsSource="{Binding anomalis.Draw, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                    <oxy:ScatterSeries x:Name="pointsG" MarkerStroke="DeepSkyBlue" MarkerFill="DeepSkyBlue" ItemsSource="{Binding graphes.DotsGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MarkerType="Circle"/>
+                    <oxy:LineSeries x:Name="lineG" StrokeThickness="1" MarkerStroke="Black" ItemsSource="{Binding graphes.Shape, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 0, 0, 10"/>
+                    <oxy:ScatterSeries x:Name="anomsG" MarkerStroke="Red" MarkerFill="Red" ItemsSource="{Binding graphes.AnomalisGraph, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MarkerType="Circle"/>
                 </oxy:Plot.Series>
+                <oxy:Plot.Annotations>
+                    <oxy:LineAnnotation Slope="{Binding graphes.X, UpdateSourceTrigger=PropertyChanged}" Intercept="{Binding graphes.Y, UpdateSourceTrigger=PropertyChanged}" Color="Black" StrokeThickness="{Binding graphes.LineThick, UpdateSourceTrigger=PropertyChanged}"></oxy:LineAnnotation>
+                    <oxy:EllipseAnnotation X="{Binding graphes.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding graphes.Y, UpdateSourceTrigger=PropertyChanged}" Width="{Binding graphes.Radius, UpdateSourceTrigger=PropertyChanged}" Height="{Binding graphes.Radius, UpdateSourceTrigger=PropertyChanged}" Fill="Transparent" Stroke="Black" StrokeThickness="{Binding graphes.CircleThick, UpdateSourceTrigger=PropertyChanged}"></oxy:EllipseAnnotation>
+                </oxy:Plot.Annotations>
             </oxy:Plot>
 
         </Grid>

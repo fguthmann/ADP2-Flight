@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ex1"
         xmlns:control="clr-namespace:ex1.View"
+          Closing="MainWindow_Closing"  
         mc:Ignorable="d"
-        Title="MainWindow" Height="470" Width="880">
+        Title="MainWindow" Height="650" Width="880">
     <Grid ShowGridLines="False">
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -16,31 +17,41 @@
         </Grid.Background>
         <!-- Definition of our main screen-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="310.029"/>
-            <RowDefinition/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <!-- First row-->
-        <Grid ShowGridLines="False" Grid.Row="0">
+        <Grid ShowGridLines="False" Grid.Row="0" Grid.RowSpan="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="320"/>
             </Grid.ColumnDefinitions>
             <!--Graphs-->
-            <control:Graphs Grid.Column="0"/>
-            <!--General information-->
-            <control:InformationTable Grid.Column="1" Grid.RowSpan="2"/>
-            <!--Joystick-->
-            <control:Sliders  Grid.Column="2" HorizontalAlignment="Left" Width="320"/>
+            <control:Graphs VerticalAlignment="Stretch" HorizontalAlignment="Left" ClipToBounds="True" Grid.Row="0"/>
+            <!--Joystick and Info together-->
+            <Grid ShowGridLines="False" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="310.029"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!--General information-->
+                <control:InformationTable Grid.Row="1" VerticalAlignment="Top"/>
+                <!--Joystick-->
+                <control:Sliders HorizontalAlignment="Left" Width="320"/>
+            </Grid>
         </Grid>
-        <Grid ShowGridLines="False" Grid.Row="1">
+        <Grid ShowGridLines="False" Grid.Row="1" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="387*"/>
+                <ColumnDefinition Width="493*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100.009"/>
+                <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <control:MediaPlayer Grid.Row="0" Loaded="MediaPlayer_Loaded"/>
+            <control:MediaPlayer Grid.Row="0" Loaded="MediaPlayer_Loaded" Grid.ColumnSpan="2"/>
             <Button Name="Menu" Grid.Row="1" Content="Return to menu"  FontSize="15" Foreground="Firebrick" Background="Transparent" FontWeight="ExtraBold"
-                VerticalAlignment="Top" HorizontalAlignment="Stretch" Click="Menu_Click"/>
+                VerticalAlignment="Bottom" Click="Menu_Click" Grid.ColumnSpan="2" IsCancel="True"/>
         </Grid>
     </Grid>
 </Window>

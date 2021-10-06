@@ -9,7 +9,6 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Collections.ObjectModel;
 using OxyPlot;
-using System.Linq;
 using System.Reflection;
 
 namespace ex1.ViewModel
@@ -28,6 +27,8 @@ namespace ex1.ViewModel
             {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
+            init();
+
         }
 
         // Call the function that need to be update
@@ -51,7 +52,11 @@ namespace ex1.ViewModel
         public float VM_Rudder => model.Rudder;
 
         // Call the close function to close the program
-        public void VM_close() { model.Close(); }
+        public void VM_close()
+        {
+            model.Close();
+            init();
+        }
         // Slow forward plus the flight
         public void VM_SlowForwardPlus() { model.setTime((int)model.CurrentTime - 10); }
         // Slow forward the flight
@@ -122,42 +127,84 @@ namespace ex1.ViewModel
             updateNames(new_names, names);
 
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(names)));
-
         }
 
         /// <summary>
         /// //////////////////////////////////////////////////////////////////
         /// </summary>
-        public string attribute = new("Choose Attribute");
-        public string correlative = new("No Correlative");
+        private void init()
+        {
+            Attribute = "Choose Attribute";
+            Correlative = "No Correlative";
+            IsNextAnomaly = false;
+        }
+        private string attribute;
+        public string Attribute
+        {
+            get => attribute;
+            set
+            {
+                attribute = value;
+                OnPropertyChanged("Attribute");
+            }
+        }
+        private string correlative;
+        public string Correlative
+        {
+            get => correlative;
+            set
+            {
+                correlative = value;
+                OnPropertyChanged("Correlative");
+            }
+        }
+        private bool is_next_anomaly;
+        public bool IsNextAnomaly
+        {
+            get => is_next_anomaly;
+            set
+            {
+                is_next_anomaly = value;
+                OnPropertyChanged("IsNextAnomaly");
+            }
+        }
+
+        public void JumpNextAnomaly() => model.JumpNextAnomaly(Attribute);
+
         private void UpdateGraphes()
         {
             graphes.EmptyGraphes();
-            if (attribute.Equals("Choose Attribute"))
+            if (Attribute.Equals("Choose Attribute"))
                 return;
             int frame = model.CurrentTime * 10;
-            graphes.UpdateGraph(model.GetRange(attribute, 0, frame), GraphesNames.ATTR);
+            graphes.UpdateGraph(model.GetRange(Attribute, frame), true);
             if (correlative.Equals("No Correlative"))
                 return;
-            graphes.UpdateGraph(model.GetRange(correlative, 0, frame), GraphesNames.COR);
-            graphes.UpdateGraph(model.GetRange(attribute, frame - 300, frame), GraphesNames.DOT);
-            graphes.UpdateGraph(model.GetAnomalies(attribute, frame), GraphesNames.ANOM);
+            graphes.UpdateGraph(model.GetRange(Correlative, frame), false);
+            graphes.UpdateDots(model.GetRange300(Attribute, frame), model.GetRange300(Correlative, frame));
+            graphes.UpdateAnomalies(model.GetAnomalies(Attribute, frame));
         }
         public void ChangeAttrPick(string attr)
         {
-            attribute = attr;
-            correlative = "No Correlative";
+            Attribute = attr;
+            Correlative = "No Correlative";
             graphes.RemoveShapes();
-            if (model.GetCorelative(attribute) == null)
+            IsNextAnomaly = false;
+            if (model.GetCorelative(Attribute) == null)
                 return;
-            correlative = model.GetCorelative(attribute);
-            if (model.IsCircle(attribute))
-                graphes.DrawCircle(model.GetShape(attribute));
+            Correlative = model.GetCorelative(Attribute);
+            if (model.IsCircle(Attribute))
+                graphes.DrawCircle(model.GetShape(Attribute));
             else
-                graphes.DrawShape(model.GetShape(attribute));
+                graphes.DrawLine(model.GetShape(Attribute));
+            IsNextAnomaly = model.IsAnomaly(Attribute);
             UpdateGraphes();
         }
-
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
         //public void MoveToExceptionTime(string exceptionFrame) { model.setTime(exceptionFrame); }
     }
 }

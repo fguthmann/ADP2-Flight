@@ -78,17 +78,35 @@ namespace ex1.Model
             return dllData.GetShape(attr);
         }
         /*Return all vals in specific range, including anomalies.*/
-        public List<float> GetRange(string attr, int start_index, int end_index)
+        public List<float> GetRange(string attr,int end_index)
         {
-            return data.getAttElements(attr).GetRange(Math.Max(0, start_index), Math.Max(0, Math.Min(maxFrame, end_index - start_index)));
+            return data.getAttElements(attr).GetRange(0, Math.Min(maxFrame, end_index));
+        }
+        public List<float> GetRange300(string attr, int end_index)
+        {
+            if(end_index < 300)
+                return data.getAttElements(attr).GetRange(0, end_index);
+            return data.getAttElements(attr).GetRange(Math.Min(maxFrame -300, end_index - 300), 300);
         }
 
         public List<float> GetAnomalies(string attr, int curr_frame)
         {
             List<float> anoms = new();
+            string correlative = dllData.Correlative(attr);
             foreach(int i in dllData.GetAnomalies(attr, Math.Max(0, curr_frame - 300), Math.Min(MaxFrame, curr_frame)))
                 anoms.Add(data.getElement(attr, i));
+            foreach(int i in dllData.GetAnomalies(correlative, Math.Max(0, curr_frame - 300), Math.Min(MaxFrame, curr_frame)))
+                anoms.Add(data.getElement(correlative, i));
             return anoms;
+        }
+        public bool IsAnomaly(string attr)
+        {
+            return dllData.IsAnomaly(attr);
+        }
+        public void JumpNextAnomaly(string attr)
+        {
+            int tmp = dllData.FindNextAnomaly(attr, Fg_handler.CurrentFrame);
+            Fg_handler.CurrentFrame = tmp;
         }
 
         private int currentTime;

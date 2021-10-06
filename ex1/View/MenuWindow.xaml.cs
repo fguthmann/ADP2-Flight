@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using ex1.ViewModel;
 using OxyPlot;
-
+using System.Threading;
 
 namespace ex1.View
 {
@@ -28,13 +28,11 @@ namespace ex1.View
         private string NormalFlightFileDownload = "reg_flight.csv";
         private bool ExceptionFlightFileDownload;
         private bool pathToDLLDownload;
-        private MainWindow runFlight;
         public MenuWindow()
         {
             FlightInfoViewModel flightInfoViewModel = new();
 
-            runFlight = new MainWindow();
-            runFlight.DataContext = flightInfoViewModel;
+
             DataContext = flightInfoViewModel;
 
             InitializeComponent();
@@ -75,11 +73,7 @@ namespace ex1.View
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-
             this.Close();
-            App.Current.Shutdown();
-
-
         }
 
 
@@ -90,6 +84,8 @@ namespace ex1.View
            // if (ExceptionFlightFileDownload && NormalFlightFileDownload)
             {
                 //runFlight.DataContext = (FlightInfoViewModel)this.DataContext);
+                MainWindow runFlight = new MainWindow(this);
+                runFlight.DataContext = this.DataContext;
                 runFlight.Show();
                 ((FlightInfoViewModel)this.DataContext).RunFlight(NormalFlightFileDownload, pathFileExceptionFile, pathToDLL);
                 this.Hide();

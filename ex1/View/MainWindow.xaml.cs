@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ex1.ViewModel;
+using System.ComponentModel;
 
 namespace ex1
 {
@@ -22,22 +23,25 @@ namespace ex1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private MenuWindow father;
+        public MainWindow(MenuWindow creator)
         {
+            father = creator;
             InitializeComponent();
         }
 
-
+        void closeWindow()
+        {
+            ((FlightInfoViewModel)this.DataContext).VM_close();
+            father.Show();
+        }
         // Go back to menu window when the client
         private void Menu_Click(object sender, RoutedEventArgs e)
         {
-            ((FlightInfoViewModel)this.DataContext).VM_close();
-            MenuWindow menu = new MenuWindow();
-            menu.Show();
             this.Close();
-
         }
 
+        void MainWindow_Closing(object sender, CancelEventArgs e) => closeWindow();
         private void MediaPlayer_Loaded(object sender, RoutedEventArgs e)
         {
 

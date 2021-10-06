@@ -87,10 +87,19 @@ namespace ex1.Model
         private bool _work = true;
         private bool zeroSpeed = false;
         private bool _pause = false;
+        private object pause_lock = new object();
         public bool Pause
         {
-            get{ return _pause;}
-            set{ _pause = value;}
+            get
+            {
+                lock (pause_lock)
+                    return _pause;
+            }
+            set
+            {
+                lock (pause_lock)
+                    _pause = value; ;
+            }
         }
         public bool Work
         {
@@ -98,7 +107,7 @@ namespace ex1.Model
             set
             {
                 _work = value;
-                Pause = _work;
+                Pause = !_work;
             }
         }
         public void InitialHandler(IData iData)

@@ -90,10 +90,10 @@
 
         <!-- Button run flight-->
         <Button Name="RunFlight" Grid.Column="1" Grid.Row="8" Content="Run Flight"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold"
-                Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="RunFlight_Click"/>
+                Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="RunFlight_Click" IsDefault="True"/>
         <!-- Button to cloe the program-->
         <Button Name="Close" Grid.Column="1" Grid.Row="10" Content="Close"  FontSize="25" Foreground="DarkCyan" FontWeight="ExtraBold"
-                Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="Close_Click"/>
+                Background="LightGray" VerticalAlignment="Center" HorizontalAlignment="Stretch" Click="Close_Click" IsCancel="True"/>
 
     </Grid>
 </Window>
