@@ -52,3 +52,6 @@ the model is analayzing the input data and communicate with the FG, and the VM h
         public float threshold;
         public bool is_anomaly = false;
         public List<int> anomalies = new List<int>();
+
+ # Video
+Here you can find a link to the preview [video](https://www.youtube.com/watch?v=5Q66Fb9EaVY).
